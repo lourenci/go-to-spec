@@ -5,11 +5,19 @@
   "version": "0.0.1",
   "publisher": "Lourenci",
   "icon": "assets/icon.png",
+  "homepage": "https://github.com/lourenci/go-to-spec",
+  "bugs": {
+    "url": "https://github.com/lourenci/go-to-spec/issues"
+  },
   "engines": {
     "vscode": "^1.22.0"
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "test",
+    "spec"
   ],
   "activationEvents": [
     "onCommand:extension.goToSpec"
