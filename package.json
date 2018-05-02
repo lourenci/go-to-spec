@@ -4,6 +4,7 @@
   "description": "Switch between the code and the spec file",
   "version": "0.0.1",
   "publisher": "Lourenci",
+  "icon": "assets/icon.png",
   "engines": {
     "vscode": "^1.22.0"
   },
