@@ -2,13 +2,13 @@
   "name": "go-to-spec",
   "displayName": "Go to Spec",
   "description": "Switch between the code and the spec file",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "Lourenci",
   "icon": "assets/icon.png",
   "homepage": "https://github.com/lourenci/go-to-spec",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lourenci/renda-fixa.git"
+    "url": "https://github.com/lourenci/go-to-spec.git"
   },
   "bugs": {
     "url": "https://github.com/lourenci/go-to-spec/issues"
