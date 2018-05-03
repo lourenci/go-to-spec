@@ -19,13 +19,3 @@ Calls `Go to Spec` command (cmd+shift+t or ctrl+shift+t).
 
 * Your spec may be in the same folder of the code with `spec` or `test` in suffix of the file.
 * Your spec may be in a different folder of the code with `spec` in suffix of the file.
-
-## Release Notes
-
-### 0.0.3
-* Expand to work with any language
-### 0.0.2
-* Fix images in README.md
-* Fix repository in package.json
-### 0.0.1
-* Initial release.
