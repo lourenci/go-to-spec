@@ -13,7 +13,7 @@ function activate (context) {
     }
 
     const openedFilename = activeFile.document.fileName
-    const isCodeFile = /(.*(\/.*\/))(.*)(\.js|\.rb)$/
+    const isCodeFile = /(.*(\/.*\/))(.*)(\.\w+)$/
 
     const openedFile = openedFilename.match(isCodeFile)
 
