@@ -2,6 +2,8 @@
 
 This extension allows you to switch between your code and its test file like Intellij IDEs.
 
+This extension is agnostic to the language that you are coding. I have been using with `.rb` and `.js` code with no problems.
+
 ## Features
 
 * You can switch from code to spec file.

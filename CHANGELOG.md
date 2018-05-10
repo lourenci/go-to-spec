@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.1.2] - 2018-05-10
+
+### Added
+
+* Better explanation in README.md file
+* Add new keywords to manifest file
+
 ## [0.1.1] - 2018-05-02
 
 ### Added
