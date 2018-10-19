@@ -36,10 +36,15 @@
       "type": "object",
       "title": "Go To Spec",
       "properties": {
-        "goToSpec.specFilePattern": {
-          "type": "string",
-          "default": "{f}.spec{e}",
-          "description": "Pattern of spec file name. {f} will be replaced by file name and {e} by file extension"
+        "goToSpec.specFilePatterns": {
+          "type": "array",
+          "title": "Patterns of spec file names",
+          "default": ["{f}.spec{e}"],
+          "description": "{f} will be replaced by file name and {e} by file extension",
+          "items": {
+            "type": "string",
+            "title": "Spec file name"
+          }
         }
       }
     },

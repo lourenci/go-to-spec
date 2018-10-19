@@ -1,24 +1,30 @@
 const vscode = require('vscode')
 const path = require('path')
 
-const patterns = {
+const PATTERNS = {
   'f': '(.+)', // Filename
   'e': '(\\.\\w+)' // File extension
 }
-const patternRegex = /\{(\w)\}/g
+const PATTERN_REGEX = /\{(\w)\}/g
 
-const {specFilePattern} = vscode.workspace.getConfiguration('goToSpec')
-const specFileRegex = RegExp(specFilePattern.replace(patternRegex, (_, param) => patterns[param] || ''))
+const {specFilePatterns} = vscode.workspace.getConfiguration('goToSpec')
+const specFileRegexes = specFilePatterns.map(pattern =>
+  RegExp(
+    pattern.replace(PATTERN_REGEX, (_, param) => 
+      PATTERNS[param] || ''
+    )
+  )
+)
 
-function getCodeFilename(specFilename) {
+function getCodeFilename(specFilename, specFileRegex) {
   const matches = specFilename.match(specFileRegex)
   return `${matches[1]}${matches[2]}`
 }
 
-function getSpecFilename(codeFilename) {
+function getSpecFilename(codeFilename, specFilePattern) {
   const fileExt = path.extname(codeFilename)
   const finenameWithoutExension = path.basename(codeFilename, fileExt)
-  return specFilePattern.replace(patternRegex, (_, param) => {
+  return specFilePattern.replace(PATTERN_REGEX, (_, param) => {
     switch(param) {
       case 'f':
         return finenameWithoutExension
@@ -28,6 +34,33 @@ function getSpecFilename(codeFilename) {
         return ''
     }
   })
+}
+
+function getMatchingSpecFileRegex(filename) {
+  for (const regex of specFileRegexes) {
+    if (regex.test(filename)) {
+      return regex
+    }
+  }
+  return null
+}
+
+async function findFile(filename) {
+  const [foundFile] = await vscode.workspace.findFiles(`**/${filename}`, '**/node_modules/**', 1)
+  return foundFile
+}
+
+async function openFile(filePath) {
+  const document = await vscode.workspace.openTextDocument(filePath)
+  return vscode.window.showTextDocument(document)
+}
+
+async function findAndOpenFile(filename) {
+  const fileToOpen = await findFile(filename)
+  if (!fileToOpen) {
+    throw new Error(`File "${filename}" not found`)
+  }
+  return openFile(fileToOpen)
 }
 
 function activate (context) {
@@ -44,22 +77,27 @@ function activate (context) {
     const openedFilePath = activeFile.document.fileName
     const openedFilename = path.basename(openedFilePath)
 
-    let filenameToOpen
-    if (specFileRegex.test(openedFilename)) {
-      // We are in a spec file
-      filenameToOpen = getCodeFilename(openedFilename)
-    } else {
+    const matchingSpecFileRegex = getMatchingSpecFileRegex(openedFilename)
+    if (!matchingSpecFileRegex) {
       // We are in a code file
-      filenameToOpen = getSpecFilename(openedFilename)
-    }
-    try {
-      const [fileToOpen] = await vscode.workspace.findFiles(`**/${filenameToOpen}`, '**/node_modules/**', 1)
-      if (!fileToOpen) {
-        return
+      // We search for the the first spec file matching one of the spec file patterns
+      const specFilePath = await specFilePatterns.reduce(async (lastP, pattern) => {
+        const path = await lastP
+        if (path) {
+          return path
+        }
+        const specFilename = getSpecFilename(openedFilename, pattern)
+        return findFile(specFilename)
+      }, Promise.resolve(null))
+      if (specFilePath) {
+        return openFile(specFilePath)
       }
-      const document = await vscode.workspace.openTextDocument(fileToOpen)
-      return vscode.window.showTextDocument(document)
-    } catch (err) {}
+      throw new Error(`No spec file found for file "${openedFilename}"`)
+    } else {
+      // We are in a spec file
+      const filenameToOpen = getCodeFilename(openedFilename, matchingSpecFileRegex)
+      await findAndOpenFile(filenameToOpen)
+    }
   })
 
   context.subscriptions.push(disposable)
