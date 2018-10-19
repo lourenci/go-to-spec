@@ -19,5 +19,4 @@ Calls `Go to Spec` command (cmd+shift+t or ctrl+shift+t).
 #### Go to code
 ![Go to code](docs/go-to-file.gif)
 
-* Your spec may be in the same folder of the code with `spec` or `test` in suffix of the file.
-* Your spec may be in a different folder of the code with `spec` in suffix of the file.
+* Your spec may be anywhere in the workspace. You can specify spec file patterns in settings.
