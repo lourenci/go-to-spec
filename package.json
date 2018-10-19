@@ -39,7 +39,14 @@
         "goToSpec.specFilePatterns": {
           "type": "array",
           "title": "Patterns of spec file names",
-          "default": ["{f}.spec{e}"],
+          "default": [
+            "{f}.spec{e}",
+            "{f}.test{e}",
+            "{f}-spec{e}",
+            "{f}-test{e}",
+            "{f}_spec{e}",
+            "{f}_test{e}"
+          ],
           "description": "{f} will be replaced by file name and {e} by file extension",
           "items": {
             "type": "string",
