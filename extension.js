@@ -1,6 +1,8 @@
 const vscode = require('vscode')
 const path = require('path')
 
+const ss = require('string-similarity')
+
 const PATTERNS = {
   'f': '(.+)', // Filename
   'e': '(\\.\\w+)' // File extension
@@ -45,9 +47,13 @@ function getMatchingSpecFileRegex(filename) {
   return null
 }
 
-async function findFile(filename) {
-  const [foundFile] = await vscode.workspace.findFiles(`**/${filename}`, '**/node_modules/**', 1)
-  return foundFile
+async function findFile(filename, originalFilePath) {
+  const foundUris = await vscode.workspace.findFiles(`**/${filename}`, '**/node_modules/**')
+  if (foundUris.length === 0) {
+    return null
+  }
+  const ratings = ss.findBestMatch(originalFilePath, foundUris.map(uri => uri.fsPath))
+  return ratings.bestMatch.target
 }
 
 async function openFile(filePath) {
@@ -55,8 +61,8 @@ async function openFile(filePath) {
   return vscode.window.showTextDocument(document)
 }
 
-async function findAndOpenFile(filename) {
-  const fileToOpen = await findFile(filename)
+async function findAndOpenFile(filename, originalFilePath) {
+  const fileToOpen = await findFile(filename, originalFilePath)
   if (!fileToOpen) {
     throw new Error(`File "${filename}" not found`)
   }
@@ -87,7 +93,7 @@ function activate (context) {
           return path
         }
         const specFilename = getSpecFilename(openedFilename, pattern)
-        return findFile(specFilename)
+        return findFile(specFilename, openedFilePath)
       }, Promise.resolve(null))
       if (specFilePath) {
         return openFile(specFilePath)
@@ -96,7 +102,7 @@ function activate (context) {
     } else {
       // We are in a spec file
       const filenameToOpen = getCodeFilename(openedFilename, matchingSpecFileRegex)
-      await findAndOpenFile(filenameToOpen)
+      await findAndOpenFile(filenameToOpen, openedFilePath)
     }
   })
 

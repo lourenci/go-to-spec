@@ -2413,6 +2413,10 @@ streamifier@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/streamifier/-/streamifier-0.1.1.tgz#97e98d8fa4d105d62a2691d1dc07e820db8dfc4f"
 
+string-similarity@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/string-similarity/-/string-similarity-2.0.0.tgz#c16d8fc7e7c8dce706742c87adc482dbdb7030bb"
+
 string-width@^2.1.0, string-width@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-2.1.1.tgz#ab93f27a8dc13d28cac815c462143a6d9012ae9e"

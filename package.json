@@ -79,5 +79,8 @@
     "@types/node": "^8.10.0",
     "standard": "^11.0.1",
     "vscode": "^1.1.6"
+  },
+  "dependencies": {
+    "string-similarity": "^2.0.0"
   }
 }
