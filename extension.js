@@ -26,9 +26,9 @@ function activate (context) {
     const filenameWithoutExtension = openedFile[3]
     const filenameExtension = openedFile[4]
 
-    const isSpecFile = /(\.|_)(spec|test)\./
+    const isSpecFile = /(\.|_|-)(spec|test)\./
     if (!isSpecFile.test(openedFile)) {
-      const sufixSpecs = ['.spec', '.test', '_spec', '_test']
+      const sufixSpecs = ['.spec', '.test', '_spec', '_test', '-spec', '-test']
 
       const sufixToOpen = sufixSpecs.map(spec => `${path}${filenameWithoutExtension}${spec}${filenameExtension}`)
         .filter(spec => fs.existsSync(spec))
@@ -44,7 +44,7 @@ function activate (context) {
           })
       }
     } else {
-      const sufixSpecs = ['.spec', '.test', '_spec', '_test']
+      const sufixSpecs = ['.spec', '.test', '_spec', '_test', '-spec', '-test']
       let fileToOpen = openedFilename
       sufixSpecs.forEach(spec => { fileToOpen = fileToOpen.replace(spec, '') })
       if (fs.existsSync(fileToOpen)) {

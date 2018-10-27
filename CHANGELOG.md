@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.1.3] - 2018-10-27
+
+### Added
+
+* Add support for -(spec|test) suffix
+
 ## [0.1.2] - 2018-05-10
 
 ### Added

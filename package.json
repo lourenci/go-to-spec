@@ -2,7 +2,7 @@
   "name": "go-to-spec",
   "displayName": "Go to Spec",
   "description": "Switch between the code and the spec file",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "Lourenci",
   "icon": "assets/icon.png",
   "homepage": "https://github.com/lourenci/go-to-spec",
